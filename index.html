@@ -518,10 +518,157 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
 
-        /* Simple black text for artist name - no animation */
-        .ice-melting-text {
-            color: #000;
+        /* ice-melting-text class removed - no longer used */
+
+        /* Project Detail Overlay */
+        .project-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Hide footer when overlay or lightbox is open */
+        body:has(.project-overlay.active) footer,
+        body:has(#lightbox.flex) footer,
+        body:has(.project-overlay.active) #artist-section .border-t,
+        body:has(.project-overlay.active) #artist-section h3:has(+ .space-y-3) {
+            display: none !important;
+        }
+
+        .project-overlay-content {
+            background: #FAF6F0;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        @media (max-width: 768px) {
+            .project-overlay-content {
+                grid-template-columns: 1fr;
+                max-height: 85vh;
+            }
+            .project-overlay {
+                padding: 1rem;
+                padding-bottom: 5rem;
+            }
+        }
+
+        .project-overlay-image {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .project-overlay-image {
+                min-height: 250px;
+            }
+        }
+
+        .project-overlay-info {
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .project-overlay-info {
+                padding: 1.5rem;
+            }
+        }
+
+        .project-overlay-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid white;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .project-overlay-close:hover {
+            background: #C65D3B;
+            transform: scale(1.1);
+        }
+
+        .project-overlay-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #C65D3B;
             font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-overlay-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3D2817;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 768px) {
+            .project-overlay-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        .project-overlay-desc {
+            color: #3D2817;
+            line-height: 1.8;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-overlay-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #3D2817;
+            color: white;
+            padding: 0.875rem 1.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            cursor: pointer;
+            border: none;
+        }
+
+        .project-overlay-btn:hover {
+            background: #C65D3B;
         }
 
         /* Grid items in project sections are clickable */
@@ -603,11 +750,7 @@
                 padding-top: 1rem !important;
             }
 
-            .ice-melting-text {
-                font-size: 1.5rem !important;
-                white-space: normal !important;
-                line-height: 1.2 !important;
-            }
+            /* ice-melting-text mobile styles removed */
 
             /* 4 Image cards - 2 columns on mobile */
             #home-section .grid {
@@ -743,9 +886,7 @@
 
         /* Small phones */
         @media (max-width: 380px) {
-            .ice-melting-text {
-                font-size: 1.25rem !important;
-            }
+            /* ice-melting-text small phone styles removed */
 
             #main-nav .nav-btn {
                 font-size: 0.55rem !important;
@@ -780,9 +921,7 @@
                 gap: 1rem !important;
             }
 
-            .ice-melting-text {
-                font-size: 2rem !important;
-            }
+            /* ice-melting-text tablet styles removed */
         }
 
         /* Touch device optimizations */
@@ -952,14 +1091,9 @@
         <!-- HOME SECTION -->
         <section id="home-section" class="section-view">
             
-            <!-- Artist Name Header - Simple Black Text -->
+            <!-- OEUVRE Header -->
             <div class="text-center mb-16 pt-8">
-                <div class="relative inline-block">
-                    <h1 class="ice-melting-text font-elegant text-3xl sm:text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-none">
-                        JOHANNES HOPPENSACK
-                    </h1>
-                </div>
-                <div class="flex items-center justify-center gap-4 mb-6 mt-8">
+                <div class="flex items-center justify-center gap-4 mb-6">
                     <div class="w-20 h-0.5 bg-terracotta rounded-full"></div>
                     <span class="font-elegant text-2xl md:text-3xl italic text-white" style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 15px rgba(0,0,0,0.5);">OEVRE</span>
                     <div class="w-20 h-0.5 bg-terracotta rounded-full"></div>
@@ -968,23 +1102,22 @@
 
             
 
-            <!-- 4 Clean Image Cards - Direct to Subpages -->
+            <!-- 4 Clean Image Cards - Open Project Overlay on Click -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 
                 <!-- CARD 1: LAND ART -->
-                <a href="javascript:void(0)" onclick="showSection('land-art-subpage')" class="group block relative aspect-[3/4] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2" style="background: #000;">
+                <button onclick="openProjectOverlay('land-art')" class="group block relative aspect-[3/4] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 text-left" style="background: #000;">
                     <img src="https://file.garden/aaq4s9giWjY0-o9q/Website/Images/Images/PLAN_IVERTed20Mai.png"
                          alt="Land Art"
                          class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                          loading="eager" decoding="async">
-                    <!-- Hover overlay with title -->
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                         <span class="text-white font-elegant text-sm md:text-base font-bold uppercase tracking-wider">Land Art</span>
                     </div>
-                </a>
+                </button>
 
                 <!-- CARD 2: SCULPTURE -->
-                <a href="javascript:void(0)" onclick="showSection('sculpture-subpage')" class="group block relative aspect-[3/4] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2" style="background: #000;">
+                <button onclick="openProjectOverlay('sculpture')" class="group block relative aspect-[3/4] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 text-left" style="background: #000;">
                     <img src="https://file.garden/aaq4s9giWjY0-o9q/Website%20Images_continueed_structure/FileGArdenSelection2/atelier%20neon.jpg"
                          alt="Sculpture"
                          class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
@@ -992,10 +1125,10 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                         <span class="text-white font-elegant text-sm md:text-base font-bold uppercase tracking-wider">Sculpture</span>
                     </div>
-                </a>
+                </button>
 
                 <!-- CARD 3: MATERIAL -->
-                <a href="javascript:void(0)" onclick="showSection('material-subpage')" class="group block relative aspect-[3/4] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2" style="background: #000;">
+                <button onclick="openProjectOverlay('material')" class="group block relative aspect-[3/4] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 text-left" style="background: #000;">
                     <img src="https://file.garden/aaq4s9giWjY0-o9q/Website%20Images_continueed_structure/WebsiteMa%CC%88rz%202026%20SELECTION_File%20Garden/Mycelkopf_basis.png"
                          alt="Material"
                          class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
@@ -1003,10 +1136,10 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                         <span class="text-white font-elegant text-sm md:text-base font-bold uppercase tracking-wider">Material</span>
                     </div>
-                </a>
+                </button>
 
                 <!-- CARD 4: ARTIST -->
-                <a href="javascript:void(0)" onclick="showSection('artist')" class="group block relative aspect-[3/4] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2" style="background: #000;">
+                <button onclick="openProjectOverlay('artist')" class="group block relative aspect-[3/4] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 text-left" style="background: #000;">
                     <img src="https://file.garden/aaq4s9giWjY0-o9q/Website%20Images_continueed_structure/Gem%C3%A4lde/%22Arrhenius%22.jpeg"
                          alt="Artist"
                          class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
@@ -1014,10 +1147,29 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                         <span class="text-white font-elegant text-sm md:text-base font-bold uppercase tracking-wider">Artist</span>
                     </div>
-                </a>
+                </button>
 
             </div>
         </section>
+
+        <!-- PROJECT OVERLAY (Modal) -->
+        <div id="project-overlay" class="project-overlay" onclick="if(event.target===this)closeProjectOverlay()">
+            <div class="project-overlay-content">
+                <button class="project-overlay-close" onclick="closeProjectOverlay()" aria-label="Close">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+                <img id="project-overlay-img" src="" alt="" class="project-overlay-image">
+                <div class="project-overlay-info">
+                    <div class="project-overlay-category" id="project-overlay-category"></div>
+                    <h2 class="project-overlay-title font-elegant" id="project-overlay-title"></h2>
+                    <p class="project-overlay-desc font-elegant" id="project-overlay-desc"></p>
+                    <button class="project-overlay-btn" id="project-overlay-cta" onclick="">
+                        <span>View Full Project</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <!-- PROJECT ROOM: LAND ART -->
         <section id="land-art-section" class="section-view hidden">
@@ -1588,6 +1740,25 @@
 
                 
 
+                <!-- Exhibitions Section -->
+                <div class="mt-16 pt-12 border-t border-dark-brown/10">
+                    <h3 class="font-elegant text-2xl md:text-3xl font-bold mb-6 text-left text-dark-brown uppercase tracking-[0.2em]">Exhibitions</h3>
+                    <div class="space-y-3 mb-8 text-left">
+                        <p class="font-elegant text-lg text-dark-brown/90">
+                            2026 — Gruppenaustellung, Kunsthaus Glarus
+                        </p>
+                        <p class="font-elegant text-lg text-dark-brown/90">
+                            2025 — Group Exhibition, Museum Name, City
+                        </p>
+                        <p class="font-elegant text-lg text-dark-brown/90">
+                            2024 — Solo Exhibition, Art Space Name, City
+                        </p>
+                        <p class="font-elegant text-lg text-dark-brown/90">
+                            2023 — Group Exhibition, Biennale/Fair Name, Country
+                        </p>
+                    </div>
+                </div>
+
                 <!-- Handicraft History Section -->
                 <div class="mt-16 pt-12 border-t border-dark-brown/10">
                     <h3 class="font-elegant text-2xl md:text-3xl font-bold mb-6 text-left text-dark-brown uppercase tracking-[0.2em]">HANDICRAFT HISTORY </h3>
@@ -1880,6 +2051,10 @@
             lightbox.classList.add('flex');
             document.body.style.overflow = 'hidden';
             
+            // Hide footer and exhibitions when lightbox is open
+            hideFooterElements();
+            hideExhibitionsInArtist();
+            
             // Re-initialize icons for lightbox
             lucide.createIcons();
             
@@ -1943,6 +2118,10 @@
             lightbox.classList.add('hidden');
             lightbox.classList.remove('flex');
             document.body.style.overflow = 'auto';
+            
+            // Show footer and exhibitions again
+            showFooterElements();
+            showExhibitionsInArtist();
             
             // Remove escape key listener
             document.removeEventListener('keydown', handleLightboxKey);
@@ -2010,7 +2189,125 @@
             }, 1000);
         }
 
-        // Water drops removed - simple black text only
+        // Project Overlay Logic
+        const projectData = {
+            'land-art': {
+                category: 'Land Art',
+                title: 'Terrain Light Projection',
+                image: 'https://file.garden/aaq4s9giWjY0-o9q/Website/Images/Images/PLAN_IVERTed20Mai.png',
+                desc: 'A series of large-scale interventions in natural landscapes, exploring how light and shadow transform our perception of terrain. These works engage directly with geological formations, vegetation cycles, and weather patterns — creating temporary architectures that exist only at the intersection of human intention and elemental force.',
+                ctaAction: "showSection('land-art-subpage')"
+            },
+            'sculpture': {
+                category: 'Sculpture',
+                title: 'Past Present Future',
+                image: 'https://file.garden/aaq4s9giWjY0-o9q/Website%20Images_continueed_structure/FileGArdenSelection2/atelier%20neon.jpg',
+                desc: 'An ongoing series investigating the temporal nature of sculptural form. Each piece exists in dialogue with its material history — the geological time embedded in stone, the industrial processes shaping metal, the organic decay of wood. The work asks: what does it mean to make something permanent in an impermanent world?',
+                ctaAction: "showSection('sculpture-subpage')"
+            },
+            'material': {
+                category: 'Material Research',
+                title: 'Focus Mycelium',
+                image: 'https://file.garden/aaq4s9giWjY0-o9q/Website%20Images_continueed_structure/WebsiteMa%CC%88rz%202026%20SELECTION_File%20Garden/Mycelkopf_basis.png',
+                desc: 'Six months of cultivating mycelium into a human head mold made from PET. This material investigation explores the boundary between living organism and sculptural medium — where growth becomes form and decay becomes transformation. The mycelium head exists as both portrait and process, biology and artifice.',
+                ctaAction: "showSection('material-subpage')"
+            },
+            'artist': {
+                category: 'Artist',
+                title: 'Johannes Hoppensack',
+                image: 'https://file.garden/aaq4s9giWjY0-o9q/Website%20Images_continueed_structure/Gem%C3%A4lde/%22Arrhenius%22.jpeg',
+                desc: 'Working across land art, sculpture, and material research, the practice engages with the physicality of making as a form of thinking. Each project begins with a material question and unfolds through hands-on experimentation — whether in the landscape, the studio, or the laboratory.',
+                ctaAction: "showSection('artist')"
+            }
+        };
+
+        function openProjectOverlay(projectKey) {
+            const data = projectData[projectKey];
+            if (!data) return;
+
+            document.getElementById('project-overlay-img').src = data.image;
+            document.getElementById('project-overlay-img').alt = data.title;
+            document.getElementById('project-overlay-category').textContent = data.category;
+            document.getElementById('project-overlay-title').textContent = data.title;
+            document.getElementById('project-overlay-desc').textContent = data.desc;
+            
+            const ctaBtn = document.getElementById('project-overlay-cta');
+            ctaBtn.setAttribute('onclick', data.ctaAction + '; closeProjectOverlay();');
+
+            const overlay = document.getElementById('project-overlay');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Hide footer and exhibitions explicitly
+            hideFooterElements();
+            hideExhibitionsInArtist();
+            
+            // Re-init icons inside overlay
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function closeProjectOverlay() {
+            const overlay = document.getElementById('project-overlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Show footer and exhibitions again
+            showFooterElements();
+            showExhibitionsInArtist();
+            
+            // Clear image after transition
+            setTimeout(() => {
+                document.getElementById('project-overlay-img').src = '';
+            }, 400);
+        }
+
+        function hideFooterElements() {
+            const footer = document.querySelector('footer');
+            if (footer) footer.style.display = 'none';
+        }
+
+        function showFooterElements() {
+            const footer = document.querySelector('footer');
+            if (footer) footer.style.display = '';
+        }
+
+        function hideExhibitionsInArtist() {
+            // Find the Exhibitions section within artist-section and hide it
+            const artistSection = document.getElementById('artist-section');
+            if (!artistSection) return;
+            const headings = artistSection.querySelectorAll('h3');
+            headings.forEach(h => {
+                if (h.textContent.trim() === 'Exhibitions') {
+                    const container = h.closest('div');
+                    if (container) {
+                        container.style.display = 'none';
+                        container.dataset.wasHidden = 'true';
+                    }
+                }
+            });
+        }
+
+        function showExhibitionsInArtist() {
+            const artistSection = document.getElementById('artist-section');
+            if (!artistSection) return;
+            const headings = artistSection.querySelectorAll('h3');
+            headings.forEach(h => {
+                if (h.textContent.trim() === 'Exhibitions') {
+                    const container = h.closest('div');
+                    if (container && container.dataset.wasHidden) {
+                        container.style.display = '';
+                        delete container.dataset.wasHidden;
+                    }
+                }
+            });
+        }
+
+        // ESC key to close overlay
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeProjectOverlay();
+            }
+        });
     </script>
 </body>
 </html>
